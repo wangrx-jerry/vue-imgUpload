@@ -86,9 +86,7 @@
 		}, 
 		mounted (){
 			this.isFirstLoad = true;
-			setTimeout(()=>{
-				this.initFiles();  
-			},3000)
+			this.initFiles();  
 		},
 		methods : {
 			// 清除所有图片（首次加载时使用）
