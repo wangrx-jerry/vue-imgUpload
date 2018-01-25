@@ -3,7 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router' 
+import exif from 'exif-js' //用于获取拍摄图片的基本信息（例如：拍摄方向）
+
 Vue.config.productionTip = false
+Vue.prototype.EXIF = exif;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

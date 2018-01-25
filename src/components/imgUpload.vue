@@ -1,33 +1,36 @@
 <template>
 	<div class="vue-uploader">
+		<!-- title -->
 		<h3 class="file-tips">
 			还可上传{{maxlength - files.length}}张图片
 		</h3>
 		<div class="file-list">
-			<section v-for="(file, index) of files" class="file-item draggable-item">
+			<!-- img list -->
+			<section v-for="(file, index) of files" class="file-item draggable-item" :key="file.src">
 				<img :src="file.src" alt="" ondragstart="return false;">
 				<span v-show="canEdit" class="file-remove" @click="remove(file, index)">+</span>
 			</section>
+			<!-- add -->
 			<section v-show="files.length < maxlength && canEdit" class="file-item add-box">
 				<div @click="add">
 					<div class="add">
 						<span>+</span>
 					</div>
-				</div>
-				
+				</div> 
 			</section> 
 		</div> 
+		<!-- progress bar -->
 		<section>
-			<div class="imgPogress-bar">
+			<div class="imgProgress-bar">
 				<section v-if="uploading" :style="{width:(percent * 100) + '%'}">{{(percent * 100) + '%'}}</section>
 			</div>
 		</section>
-		<input v-if="multiple" type="file" accept="image/*" @change="fileChanged" ref="file" multiple="multiple"> 
-		<input v-else type="file" accept="image/*" @change="fileChanged" ref="file"> 
+		<!-- file -->
+		<input type="file" accept="image/*" @change="fileChanged" ref="file" :multiple="multiple"> 
 	</div>
 </template>
 <script>  
-	import { MessageBox } from 'mint-ui'
+	import { Indicator, Toast, MessageBox } from 'mint-ui' 
 	export default {
 		props : {
 			src : {//图片上传地址
@@ -38,8 +41,7 @@
 				type : Boolean,
 				default : () =>{
 					return true
-				}
-
+				} 
 			},
 			imgData : {//初始化img数据（编辑/查看时的数据源）
 				type : Object,
@@ -54,7 +56,7 @@
 					return true
 				}
 			},
-			change : {//修改数据源对象的值不能让数据源发生改变时使用
+			change : {//修改数据源对象的值不能让数据源发生改变时使用（页面无刷新加载）
 				type : Boolean,
 				required : false
 			},
@@ -74,18 +76,14 @@
 		},
 		data() {
 			return {
-				status : 'ready',
-				files : [],
-				point : {},
-				uploading : false, 
-				isFirstLoad : true, 
-				uploading : false,
-				percent : 0,
-				newUrl : '',
+				files : [],//图片数据
+				isFirstLoad : true, //是否是第一次加载
+				uploading : false,// 上传中显示进度条
+				percent : 0,//进度条百分比
+				newUrl : '',//canvas压缩后图片地址
 			}
 		}, 
 		mounted (){
-			this.isFirstLoad = true;
 			this.initFiles();  
 		},
 		methods : {
@@ -145,12 +143,7 @@
 					console.log(`error：error code ${xhr.status}`)
 				    }
 				}   	
-			},
-			// 上传完成
-			finished() {
-				this.files = []
-				this.status = 'ready'
-			},
+			}, 
 			// 移除图片
 			remove(list, index) {
 				MessageBox({
@@ -318,11 +311,15 @@
 	}
 </script>
 <style>
+/* 图片预览 */
 .vue-uploader .file-list .file-item{ position: relative;float: left;width: 150px;height: 150px;margin: 0 20px 20px 0;text-align: center; }
 .vue-uploader .file-list .file-item img{ width: 100%;height: 100%;border: 1px solid #ececec; }
 .vue-uploader .file-list .file-item .file-remove{font-size: 20px;font-weight: bold;line-height: 20px; position: absolute;top: -10px;right: -10px;width: 20px;height: 20px;transform: rotate(45deg);text-align: center;color: #f00;border: 1px solid #f00;border-radius: 50%;background: transparent; }
+/* add */
 .vue-uploader .add{ font-size: 100px;line-height: 150px;float: left;width: 150px;height: 150px;cursor: pointer;text-align: center;color: #a9a9a9;border: 1px dashed #a9a9a9; }
+/* file */
 .vue-uploader > input[type='file']{ display: none; }
-.vue-uploader .imgPogress-bar{ flex-grow: 1; }
-.vue-uploader .imgPogress-bar section{font-size: 12px; margin-top: 5px;transition: all .5s ease;text-align: center;color: #fff;border-radius: 3px;background: #00b4aa; }
+/* progre */
+.vue-uploader .imgProgress-bar{ flex-grow: 1; }
+.vue-uploader .imgProgress-bar section{font-size: 12px; margin-top: 5px;transition: all .5s ease;text-align: center;color: #fff;border-radius: 3px;background: #00b4aa; }
 </style>

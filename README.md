@@ -19,6 +19,13 @@
 使用了mint-UI的toast和message提示组件（当然你也可以选择start更多的vux）
 
 使用了exif-js，用来兼容ios设配：ios和部分三星设备拍照上传会有图片被旋转的问题
+
+如果愿意使用则手动安装依赖，不然请删除对应部分，如
+```
+import { Indicator, Toast, MessageBox } from 'mint-ui' 
+this.$indicator.open('图片上传中...');
+……
+```
 > 启动：
 
 ```

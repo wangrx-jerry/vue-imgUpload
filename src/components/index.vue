@@ -35,7 +35,7 @@ export default {
     return {
       canEdit: true,
       multiple: true,
-      imgSrc: '/api/imgs',
+      imgSrc: '@/components/imgBox',
       imgMax: 6,
       clearImgData : true,
       imgData: {},
