@@ -178,27 +178,14 @@
 							file : list[i]
 						}
 						// console.log('压缩前大小》》》', list[i].size);
-						await this.html5Reader(list[i], item, i);
+						await this.compress(list[i], item, i);
 						this.files.push(item); 
 					}
 				}else{
 					this.$toast('最多选择六张图片');
 				}
 				this.$refs.file.value = '' 
-			}, 
-			/*
-			生成图片预览地址（地址为base64格式）
-			filereader 对象允许Web应用程序异步读取存储在用户计算机上的文件
-			注意：需要readAsDataURL才能触发onload
-			*/
-			html5Reader(file, item, i){
-				const reader = new FileReader()
-				reader.onload = (e) => {
-					this.$set(item, 'src', e.target.result);
-					this.compress(file, item, i);
-				}
-				reader.readAsDataURL(file)
-			},
+			},  
 			// 进度条
 			 uploadProgress(evt) {
 				const component = this
@@ -211,6 +198,7 @@
 			}, 
 			/*  
 			压缩图片
+			filereader 对象允许Web应用程序异步读取存储在用户计算机上的文件
 			Image()函数将会创建一个新的HTMLImageElement实例。它的功能等价于 document.createElement('img')
 			new Image用于获取上传图片（绘制canvas时会用到），并获取其大小用于设置最大尺寸（压缩）
 			注意： 需要设置src之后才能触发onload中的函数
@@ -271,27 +259,24 @@
 						} 
 						//压缩后的图片base64 url
 						vm.newUrl = canvas.toDataURL('image/jpeg');
+						vm.$set(item, 'src', vm.newUrl);//生成预览地址
 						vm.submit(item, i);
 						
 					};
 				};
 				reader.readAsDataURL(file); 
 			},
-			// 转为blob对象，用于formdata数据提交
-			dataURItoBlob (base64Data) {
-				var byteString;
-				if (base64Data.split(',')[0].indexOf('base64') >= 0)
-					byteString = atob(base64Data.split(',')[1]);
-				else
-					byteString = unescape(base64Data.split(',')[1]);
-				var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
-				var ia = new Uint8Array(byteString.length);
-				for (var i = 0; i < byteString.length; i++) {
-					ia[i] = byteString.charCodeAt(i);
+			// dataUrl转为blob对象，用于formdata数据提交
+			dataURItoBlob (dataurl) {
+				var arr = dataurl.split(','), 
+					mime = arr[0].match(/:(.*?);/)[1],
+					bstr = atob(arr[1]),//base-64编码过的字符串进行解码
+					n = bstr.length, 
+					u8arr = new Uint8Array(n);//8 位无符号整数值的类型化数组
+				while(n--){
+					u8arr[n] = bstr.charCodeAt(n);
 				}
-				return new Blob([ia], {
-					type : mimeString
-				});
+				return new Blob([u8arr], {type : mime}); 
 			}, 
 		}, 
 		watch : { 
