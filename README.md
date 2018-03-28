@@ -32,7 +32,16 @@ this.$indicator.open('图片上传中...');
 npm（cnpm）i
 npm(cnpm) run dev
 ```
-
+>  可能出现的报错，如果本地webpack的版本为3.x，需要在跟目录新建一个postcss.config.js文件，里面存放
+```
+module.exports = {
+	plugins: [
+		require('autoprefixer')({
+			browsers: ['last 5 versions']
+		})
+	]
+}
+```
 > 组件参数说明
 - class:组件样式
 
