@@ -5,11 +5,11 @@
     <!-- 
       class:组件样式
       canedit: 组件是否可编辑
-      imgData：图片初始化数据(obj)，数据格式：{key: name, key2: name2}
+      imgData：图片初始化数据(obj)，数据格式：{key: src, key2: src2}
       uploadimg： 图片上传后的回调
       src：图片上传地址
       multiple：是否可以上传多张
-      maclength：最多可以上传多少张（需要和multiple一起使用）
+      maxlength：最多可以上传多少张（需要和multiple一起使用）
       clear：清除所有图片（用于初始化清空图片，同时数据源imgdata需要清空）
       change：触发组件的watch （用于初始化数据）
      -->

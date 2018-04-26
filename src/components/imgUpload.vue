@@ -30,7 +30,6 @@
 	</div>
 </template>
 <script>  
-	import { Indicator, Toast, MessageBox } from 'mint-ui' 
 	export default {
 		props : {
 			src : {//图片上传地址
@@ -110,18 +109,14 @@
 			},
 			// 上传图片
 			submit(file, index) { 
-				this.$indicator.open('图片上传中...');
-				// 防止因为接口请求超时或者请求失败loading不消失
-				setTimeout(() => {
-					this.$indicator.close();
-				}, 3000);
+				console.log('图片上传中');
 				if (this.files.length === 0) {
 					console.warn('no file!');
 					return
 				} 
 				const formData = new FormData()
 				var blob = this.dataURItoBlob(this.newUrl);   
-				// console.log('压缩后的图片大小》》》', blob.size);
+				console.log('压缩后的图片大小》》》', blob.size);
 				formData.append(file.name, blob, 'image.png')  
 				const xhr = new XMLHttpRequest()
 				xhr.upload.addEventListener('progress', this.uploadProgress, false)
@@ -130,37 +125,27 @@
 				xhr.send(formData)
 				xhr.onload = () => {
 					this.uploading = false
-				    if (xhr.status === 200 || xhr.status === 304) {
+					if (xhr.status === 200 || xhr.status === 304) {
 					let imgObj = {};
 					let key = new Date().getTime() + index;
 					imgObj[key] = JSON.parse(xhr.response).Data;
 					file.name = key;
 					this.imgData = Object.assign(this.imgData, imgObj);
-					this.$indicator.close();
 					this.$emit('uploadImg', this.imgData);
-					this.$toast('图片上传成功！')
-				    } else {
-					console.log(`error：error code ${xhr.status}`)
-				    }
+					console.log('图片上传成功！');
+					} else {
+						console.log(`error：error code ${xhr.status}`)
+					}
 				}   	
 			}, 
 			// 移除图片
 			remove(list, index) {
-				MessageBox({
-					title : '提示',
-				 	message : '确定删除?',
-				 	showCancelButton : true,
-				 	closeOnClickModal : false
-				}).then((action) => { 
-					if (action === 'confirm') {
-						this.files.splice(index, 1);
-						delete this.imgData[list.name];
-						this.$emit('uploadImg', this.imgData);
-					}
-					if (document.getElementsByClassName('v-modal').length) {
-						document.getElementsByClassName('v-modal')[0].style.display = 'none'
-					}
-				},() => {})
+				this.files.splice(index, 1);
+				delete this.imgData[list.name];
+				this.$emit('uploadImg', this.imgData);
+				if (document.getElementsByClassName('v-modal').length) {
+					document.getElementsByClassName('v-modal')[0].style.display = 'none'
+				}
 			},
 			/*
 			change触发图片上传函数
@@ -177,12 +162,12 @@
 							size : list[i].size,
 							file : list[i]
 						}
-						// console.log('压缩前大小》》》', list[i].size);
+						console.log('压缩前大小》》》', list[i].size);
 						await this.compress(list[i], item, i);
 						this.files.push(item); 
 					}
 				}else{
-					this.$toast('最多选择六张图片');
+					console.log('最多选择六张图片');
 				}
 				this.$refs.file.value = '' 
 			},  
