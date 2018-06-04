@@ -48,7 +48,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: 'https://wangrx-jerry.github.io/vue-imgUpload/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps
