@@ -1,5 +1,6 @@
 # 组件说明
 ## 这是一个基于vue2.0 的图片上传demo
+[预览]( https://wangrx-jerry.github.io/vue-imgUpload/dist/index.html)
 > 该组件用于上传本地图片，支持：
 1. 图片预览
 2. 图片删除
