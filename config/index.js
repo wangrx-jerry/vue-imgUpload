@@ -9,7 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+	assetsPublicPath: '/',
     proxyTable: {},
 
     // Various Dev Server settings
@@ -48,7 +48,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: 'https://wangrx-jerry.github.io/vue-imgUpload/',
 
     /**
      * Source Maps
