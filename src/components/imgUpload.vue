@@ -175,7 +175,8 @@
 			 uploadProgress(evt) {
 				const component = this
 				if (evt.lengthComputable) {
-				    const percentComplete = Math.round((evt.loaded * 100) / evt.total)
+					const percentComplete = Math.round((evt.loaded * 100) / evt.total)
+					console.log('percentComplete>>>', percentComplete);
 				    component.percent = percentComplete / 100
 				} else {
 				    console.warn('upload progress unable to compute')
@@ -282,7 +283,8 @@
 </script>
 <style>
 /* 图片预览 */
-.vue-uploader .file-list .file-item{ position: relative;float: left;width: 150px;height: 150px;margin: 0 20px 20px 0;text-align: center; }
+.vue-uploader .file-list{overflow: hidden;}
+.vue-uploader .file-list .file-item{ position: relative;float: left;width: 150px;height: 150px;margin: 20px 20px 20px 0;text-align: center; }
 .vue-uploader .file-list .file-item img{ width: 100%;height: 100%;border: 1px solid #ececec; }
 .vue-uploader .file-list .file-item .file-remove{font-size: 20px;font-weight: bold;line-height: 20px; position: absolute;top: -10px;right: -10px;width: 20px;height: 20px;transform: rotate(45deg);text-align: center;color: #f00;border: 1px solid #f00;border-radius: 50%;background: transparent; }
 /* add */
